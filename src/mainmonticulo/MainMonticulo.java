@@ -6,6 +6,7 @@
 package mainmonticulo;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -19,77 +20,106 @@ public class MainMonticulo {
     public static void main(String[] args) {
         ArrayList<Integer> ValoresPreMonticulo = new ArrayList<>();
         Monticulo monticulo = new Monticulo();
-        monticulo.Insertar(10);
-        ValoresPreMonticulo.add(10);
-        
-        monticulo.Insertar(11);
-        ValoresPreMonticulo.add(10);
-        
-        monticulo.Insertar(32);
-        ValoresPreMonticulo.add(32);
-        
-        monticulo.Insertar(23);
-        ValoresPreMonticulo.add(23);
-        
-        monticulo.Insertar(4);
-        ValoresPreMonticulo.add(4);
-        
-        monticulo.Insertar(5);
-        ValoresPreMonticulo.add(5);
-        
-        monticulo.Insertar(23);
-        ValoresPreMonticulo.add(23);
-        
-        monticulo.Insertar(18);
-        ValoresPreMonticulo.add(18);
-        
-        monticulo.Insertar(19);
-        ValoresPreMonticulo.add(19);
-        
-        monticulo.Insertar(32);
-        ValoresPreMonticulo.add(32);
-        
-        monticulo.Insertar(64);
-        ValoresPreMonticulo.add(64);
-        
-        monticulo.Insertar(11);
-        ValoresPreMonticulo.add(11);
-        
-        System.out.println("Valores a ingresar");
-       for(Integer num:ValoresPreMonticulo){
-           System.out.print(num+", ");
-       }
-        System.out.println("\n");
-        System.out.println("Valores ya ingresados al monticulo");
-        monticulo.Mostrar();
-        
-        System.out.println("\n");
-        System.out.println("*** Buscar valores: 50, 5, 64. ***");
-        System.out.println("El valor 50: "+monticulo.Buscar(monticulo.raiz, 50));
-        System.out.println("El valor 5: "+monticulo.Buscar(monticulo.raiz, 5));
-        System.out.println("El valor 64: "+monticulo.Buscar(monticulo.raiz, 64));
-           
-        /*
-        System.out.println(monticulo.raiz.getValor());
-        System.out.println(monticulo.raiz.getHijoIzq().getValor());
-        System.out.println(monticulo.raiz.getHijoDer().getValor());
-        System.out.println("posicion 3 y 4");
-        
-        System.out.println(monticulo.raiz.getHijoIzq().getHijoIzq().getValor());
-        System.out.println(monticulo.raiz.getHijoIzq().getHijoDer().getValor());
-        
-         System.out.println("posicion 5 y 6");
-        
-        System.out.println(monticulo.raiz.getHijoDer().getHijoIzq().getValor());
-        System.out.println(monticulo.raiz.getHijoDer().getHijoDer().getValor());
-        System.out.println("\n");
-        
-        System.out.println("Altura del hijo izquierdo: "+monticulo.getAltura(monticulo.raiz.getHijoIzq()));
-        System.out.println("Altura del hijo derecho: "+monticulo.getAltura(monticulo.raiz.getHijoDer()));
-        System.out.println("nodos del arbol: "+monticulo.Ordenar_Pre(monticulo.raiz));
+      Scanner input = new Scanner(System.in);
+        int n, n2, temp;
        
-       // System.out.println("nodo que deberia tener: "+monticulo.NodosSegunAltura(3));
-        */
+        int opcion, k;
+
+        boolean flag;
+        flag = true;
+       
+
+        while (flag)
+        {
+             System.out.println("\n\tM\tE\tN\tU\n");
+        System.out.println("1. Ingresar valor");
+        System.out.println("2. Altura del monticulo");
+        System.out.println("3. Mostrar monticulo");
+        System.out.println("4. Mostrar nivel");
+        System.out.println("5. Mostrar los valores de nivel");
+        System.out.println("6. Mostrar padre del valor");
+        System.out.println("7. Salir");
+
+            System.out.print("\nSeleccionar opcion::");
+            opcion = input.nextInt();
+            if (opcion == 7) {             
+                System.exit(0);
+                flag = false;
+                break;
+            } else {
+                switch (opcion) {
+                    case 1: 
+                        System.out.print("¿Cuantos valores desean ingresar?: ");
+                        n2 = input.nextInt();
+
+                        for (int i = 0; i < n2; i++) {
+                            System.out.print("\nIngrese valor: ");
+                            System.out.println(i + 1);
+                            temp = input.nextInt();
+                            monticulo.Insertar(temp);
+                        }
+
+                        break;
+
+                    case 2:
+                        if(monticulo.raiz == null){
+                            System.out.println("El monticulo esta vacio");
+                        }
+                        else{
+                           System.out.println("La altura del arbol es: "+monticulo.getAltura(monticulo.raiz)); 
+                        }
+                       
+                        break;
+
+                    case 3:
+                       monticulo.Mostrar();
+
+                        break;
+                    case 4:
+                      System.out.print("\nIngrese valor: ");
+                      temp = input.nextInt();
+                      monticulo.Nivel(temp,0,0);
+                      if(monticulo.nivelnodo==0){
+                          System.out.println("El valor no existe");
+                      }
+                      else{
+                          System.out.println("El nivel del valor es: "+monticulo.nivelnodo);
+                      }
+                      
+                        break;
+                        
+                    case 5:
+                      System.out.print("\nIngrese nivel: ");
+                      temp = input.nextInt();
+                      monticulo.Nivel(0,1,temp);
+                        break;
+                    case 6:
+                      System.out.print("\nIngrese valor de referencia: ");
+                      temp = input.nextInt();
+                      if(monticulo.Buscar(monticulo.raiz, temp) == "Existe"){
+                      monticulo.Padre(monticulo.raiz,temp);
+                      if(monticulo.Padre(monticulo.raiz,temp)!=null){
+                          System.out.println("El padre del valor es: "+monticulo.nodo_padre.getValor());
+                      }
+                      else{
+                          System.out.println("El padre es nulo");
+                      }
+                      }//fin primera condicion
+                      
+                      else{
+                          System.out.println("El valor de referencia no existe");
+                      }
+                        break;
+                    case 7:
+                      System.exit(0);
+                        break;
+
+                    default: 
+                        System.out.println("\nError\n");
+                        break;
+                }
+            }
+        }
         
     }
     

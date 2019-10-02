@@ -12,10 +12,10 @@ import java.util.ArrayList;
  * @author Usuario
  */
 public class Monticulo {
-    public Nodo raiz;
+    public Nodo raiz, nodo_padre;
     public int []valores;
-    int altura, conta, altura_hijoder, altura_hijoizq;
-    private ArrayList<Nodo> ListaPrincipal = new ArrayList<Nodo>();
+    int altura, conta, altura_hijoder, altura_hijoizq, nivelnodo=0;
+    private ArrayList<Nodo> ListaPrincipal = new ArrayList<Nodo>(), Array_aux = new ArrayList<Nodo>();
     
     public void Insertar(int valor){
         if(raiz == null){
@@ -199,6 +199,111 @@ public class Monticulo {
                MostrarNodos(aux, NodosEnArbol);// se vuelve a llamar a la funcion pero ahora le enviamos el array aux con los hijos de cada nodo que contiene el array array_aux
            }
            
+       }
+ //Buscar padre de un nodo
+       public Nodo Padre(Nodo nodo,int valor){
+        Nodo aux = nodo;
+        BuscarPadre(aux,valor);
+        return nodo_padre ;
+        
+    }
+       private void BuscarPadre(Nodo nodo_raiz,int valor){
+        if(nodo_raiz!=null){
+            if(nodo_raiz.getValor()==valor){
+               nodo_padre = nodo_raiz.getPadre();
+            }
+            BuscarPadre(nodo_raiz.getHijoIzq(),valor);
+            BuscarPadre(nodo_raiz.getHijoDer(),valor);
+        }
+        
+    }
+       
+       
+// Retornar valor del nodo 
+    public void Nivel(int valor,int opcion, int nivel){
+           if(raiz!=null){
+               int NodosEnArbol = Ordenar_Pre(raiz);
+               ListaPrincipal.clear(); // Se limpia el array que guarda todos los valores de los nodos del arbol 
+               Array_aux.clear(); // Se limpia el array auxiliar 
+               conta=0;
+               nivelnodo=0;
+               ArrayList<Nodo> aux = new ArrayList<Nodo>();
+               aux.add(raiz);
+               if(opcion==0){
+                   NivelNodo(aux, NodosEnArbol, valor);
+                   
+               }
+               else if(opcion == 1){
+                  if(nivel == 1){
+                      for(Nodo nodo:aux){
+                          System.out.println(nodo.getValor());
+                      }
+                  }
+                  else{
+                      nivel = nivel-1;
+                      RetornarFila(aux, NodosEnArbol, nivel);
+                  
+                   for(Nodo nodo:Array_aux){
+                      
+                       System.out.print(nodo.getValor()+", ");
+                   }
+                  }
+               }
+               
+
+           }
+           
+       }
+ // se optiene el nivel del valor iguandolo a la varible global nivelnodo 
+       private void NivelNodo(ArrayList<Nodo> array_aux,int NodosEnArbol, int valor){
+           if(ListaPrincipal.size()!=NodosEnArbol){
+            conta++;
+           ArrayList<Nodo> aux = new ArrayList<Nodo>(); 
+           for(Nodo nodo:array_aux){ 
+               ListaPrincipal.add(nodo);
+               if(nodo.getValor()==valor){
+                   nivelnodo = conta;
+               }
+               if(nodo.getHijoIzq()!=null&&nodo.getHijoDer()!=null){
+               aux.add(nodo.getHijoIzq());
+               aux.add(nodo.getHijoDer()); 
+               }
+               else if(nodo.getHijoIzq()!=null&&nodo.getHijoDer()==null){
+                 aux.add(nodo.getHijoIzq());  
+               }
+               
+              
+               
+           }
+               NivelNodo(aux, NodosEnArbol,valor);// se vuelve a llamar a la funcion pero ahora le enviamos el array aux con los hijos de cada nodo que contiene el array array_aux
+           }     
+       }
+ //Encontrar fila. retorna toda la fila perteneciente al nivel del arbol 
+       
+           private void RetornarFila(ArrayList<Nodo> array_aux,int NodosEnArbol, int nivel){
+             
+           if(ListaPrincipal.size()!=NodosEnArbol){
+           conta++;
+
+           ArrayList<Nodo> aux = new ArrayList<Nodo>(); 
+           for(Nodo nodo:array_aux){ 
+               ListaPrincipal.add(nodo);
+               if(nodo.getHijoIzq()!=null&&nodo.getHijoDer()!=null){
+               aux.add(nodo.getHijoIzq());
+               aux.add(nodo.getHijoDer()); 
+               }
+               else if(nodo.getHijoIzq()!=null&&nodo.getHijoDer()==null){
+                 aux.add(nodo.getHijoIzq());  
+               }
+              
+           }// fin del for 
+           if(nivel == conta){
+               
+              Array_aux = aux; // se 
+              
+           }
+               RetornarFila(aux, NodosEnArbol,nivel);// se vuelve a llamar a la funcion pero ahora le enviamos el array aux con los hijos de cada nodo que contiene el array array_aux
+           }//fin del primer if      
        }
        
  //clase nodo 
